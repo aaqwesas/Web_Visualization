@@ -13,11 +13,16 @@ const Login: React.FC = () => {
     e.preventDefault();
     try {
       await signIn(email, password);
+      toast.success('Logged in successfully!', {
+        duration: 3000,
+        position: 'top-center',
+      });
       navigate('/dashboard');
     } catch (error) {
       console.error('Error signing in:', error);
       // Show an error toast
       toast.error('Failed to log in. Did you confirmed your email?', {
+        icon: '❌',
         duration: 4000, // Display for 4 seconds
         position: 'top-center', // Position the toast at the top center
         style: {
