@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast'; // Import react-hot-toast
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -13,9 +14,24 @@ const Signup: React.FC = () => {
     e.preventDefault();
     try {
       await signUp(email, password, role);
+      toast.success('Signup successfully, a link is sent to your email.', {
+        duration: 3000,
+        position: 'top-center',
+      });
       navigate('/dashboard');
     } catch (error) {
       console.error('Error signing up:', error);
+      toast.error('Failed to log in: '+ error, {
+        icon: '❌',
+        duration: 4000, // Display for 4 seconds
+        position: 'top-center', // Position the toast at the top center
+        style: {
+          backgroundColor: '#ff4d4f', // Red background for error
+          color: '#fff', // White text
+          padding: '16px',
+          borderRadius: '8px',
+        },
+      });
     }
   };
 
@@ -59,6 +75,8 @@ const Signup: React.FC = () => {
     },
   };
   return (
+    <>
+    <Toaster/>
     <div style={styles.container}>
       <form onSubmit={handleSubmit} style={styles.form}>
         <h2>Sign Up</h2>
@@ -90,6 +108,7 @@ const Signup: React.FC = () => {
         <Link to="/login" style={styles.link}>Already have an account? Log in</Link>
       </form>
     </div>
+    </>
   );
 };
 

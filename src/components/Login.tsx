@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast'; // Import react-hot-toast
@@ -6,8 +6,16 @@ import toast, { Toaster } from 'react-hot-toast'; // Import react-hot-toast
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { signIn } = useAuth();
+  const { signIn, user } = useAuth(); // Destructure currentUser from useAuth
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check for existing user session on component mount
+    if (user) {
+      // If user is already authenticated, navigate to dashboard
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,10 +26,12 @@ const Login: React.FC = () => {
         position: 'top-center',
       });
       navigate('/dashboard');
-    } catch (error) {
+    } catch (error: any) { // Type as any to handle different error types
       console.error('Error signing in:', error);
-      // Show an error toast
-      toast.error('Failed to log in. Did you confirmed your email?', {
+      // Show an error toast with a user-friendly message
+      const errorMessage =
+        error?.message || 'An unexpected error occurred. Please try again.';
+      toast.error(`Failed to log in: ${errorMessage}`, {
         icon: '❌',
         duration: 4000, // Display for 4 seconds
         position: 'top-center', // Position the toast at the top center
