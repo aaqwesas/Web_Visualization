@@ -4,8 +4,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast'; // Import react-hot-toast
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const { signIn, user } = useAuth(); // Destructure currentUser from useAuth
   const navigate = useNavigate();
 
