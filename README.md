@@ -164,6 +164,7 @@ Contributions are welcome! To contribute:
 
 - [React](https://reactjs.org/)
 - [Supabase](https://supabase.com/)
+- [Typescript](https://www.typescriptlang.org/)
 - [Recharts](https://recharts.org/)
 
 ---

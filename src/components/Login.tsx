@@ -21,10 +21,6 @@ const Login: React.FC = () => {
     e.preventDefault();
     try {
       await signIn(email, password);
-      toast.success('Logged in successfully!', {
-        duration: 3000,
-        position: 'top-center',
-      });
       navigate('/dashboard');
     } catch (error: any) { // Type as any to handle different error types
       console.error('Error signing in:', error);
