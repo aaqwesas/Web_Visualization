@@ -22,13 +22,15 @@ A web application built with **React (TypeScript)** and **Supabase** to visualiz
 - **Interactive Visualizations**: Dynamic charts and graphs for data representation.
 - **TypeScript Support**: Strongly typed codebase for better developer experience.
 - **Supabase Integration**: Real-time data fetching and storage.
+- **Fake ordering system**: For adding dummy data for showing the visualization
+- **Admin System**: The admin can add menu items to the database
 
 ---
 
 ## Tech Stack
 
 - **Frontend**: React (TypeScript)
-- **Backend/Database**: Supabase (PostgreSQL, Auth, Realtime)
+- **Backend/Database**: Supabase (PostgreSQL, Auth)
 - **Data Visualization**: Recharts or another library (e.g., Chart.js, D3.js)
 - **Styling**: CSS
 
