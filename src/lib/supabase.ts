@@ -16,6 +16,8 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   },
 });
 
+export const adminAuthClient = supabase.auth.admin;
+
 // For web, we can use the Page Visibility API to detect when the page is visible or hidden
 if (typeof document !== 'undefined') {
   document.addEventListener("visibilitychange", () => {

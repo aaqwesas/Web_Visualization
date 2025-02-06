@@ -5,6 +5,8 @@ import Signup from './components/Signup';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import AdminDashboard from './components/AdminDashboard';
+import Ordering from './components/Ordering';
+import AddDrink from './components/AddDrink';
 
 function App() {
   return (
@@ -18,9 +20,19 @@ function App() {
               <Dashboard />
             </ProtectedRoute>
           } />
+          <Route path="/ordering" element={
+            <ProtectedRoute>
+              <Ordering />
+            </ProtectedRoute>
+          } />
           <Route path="/admin" element={
             <AdminRoute>
               <AdminDashboard />
+            </AdminRoute>
+          } />
+          <Route path="/add-drink" element={
+            <AdminRoute>
+              <AddDrink />
             </AdminRoute>
           } />
           <Route path="/" element={<Navigate to="/login" />} />

@@ -9,6 +9,7 @@ type AuthContextType = {
   loading: boolean; // Added loading state
   signUp: (email: string, password: string, role: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
+  role: string | null; // Added role state
   signOut: () => Promise<void>;
 }
 
@@ -46,15 +47,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Function to sign up a new user
   const signUp = async (email: string, password: string, role: string) => {
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: 'http://localhost:5173', // Optional: specify redirect URL
-        data: { role } // Store the user's role in Supabase auth metadata
-      }
-    });
-    if (error) throw error;
+    // Use Supabase's signUp method to create a new user with the provided email and password
+    if (role == "admin"){
+
+    }else{
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: 'http://localhost:5173', // Optional: specify redirect URL
+          data: { role } // Store the user's role in Supabase auth metadata
+        }
+      });
+      if (error) throw error; 
+    }
+    
   };
 
   // Function to sign in an existing user
