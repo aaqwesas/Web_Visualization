@@ -1,4 +1,6 @@
-// Existing types
+import { User } from '@supabase/supabase-js';
+
+
 export type MenuItem = {
   id: number;
   DrinkName: string;
@@ -8,14 +10,13 @@ export type MenuItem = {
 
 export type InsertMenuItem = Omit<MenuItem, 'id'>;
 
-// CartItem type remains unchanged
+
 export type CartItem = {
   DrinkName: string;
   quantity: number;
-  price: number; // price per unit
+  price: number; 
 };
 
-// Additional types
 export type OrderDetail = {
   DrinkName: string;
   quantity: number;
@@ -25,7 +26,15 @@ export type SalesEntry = {
   id: number; // Auto-generated
   Details: OrderDetail[];
   price: number;
-  sale_date: string; // ISO 8601 format
+  sale_date: string;
 };
 
-// If not already defined, define Category, PaymentMethod, etc.
+
+export type AuthContextType = {
+  user: User | null;
+  role: string | null; // Added role state
+  loading: boolean; // Added loading state
+  signUp: (email: string, password: string) => Promise<void>; // Removed role parameter
+  signIn: (email: string, password: string) => Promise<void>;
+  signOut: () => Promise<void>;
+};

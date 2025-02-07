@@ -13,13 +13,11 @@ const AdminDashboard: React.FC = () => {
       navigate('/login');
     } catch (error) {
       console.error('Error signing out:', error);
-      // Optionally, display an error toast or message here
     }
   };
 
   return (
     <div className="admin-dashboard-container">
-      {/* Embedded CSS Styles */}
       <style>{`
         .admin-dashboard-container {
           max-width: 800px;
