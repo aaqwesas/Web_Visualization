@@ -1,12 +1,15 @@
-// Dashboard.tsx
+// src/components/Dashboard.tsx
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaSignOutAlt, FaShoppingCart, FaUserShield } from 'react-icons/fa'; // Importing icons for better UI
+import { FaSignOutAlt, FaShoppingCart, FaChartLine } from 'react-icons/fa'; // Updated icon (FaChartLine for analytics)
+import DynamicLineChart from './Charts/DynamicLineChart'; // Import the DynamicLineChart component
+import PieChartComponent from './Charts/PieChartComponent'; // Import the PieChartComponent
+import BarChartComponent from './Charts/BarChartComponent'; // Import the BarChartComponent
 import toast, { Toaster } from 'react-hot-toast'; // For user feedback
 
 const Dashboard: React.FC = () => {
-  const { user, signOut } = useAuth();
+  const { user, signOut, loading } = useAuth();
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
@@ -19,6 +22,15 @@ const Dashboard: React.FC = () => {
       toast.error('Error signing out. Please try again.');
     }
   };
+
+  if (loading) {
+    return (
+      <div style={{ textAlign: 'center', padding: '50px' }}>
+        <p>Loading dashboard...</p>
+        {/* You can replace this with a spinner or loader */}
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard-container">
@@ -47,6 +59,9 @@ const Dashboard: React.FC = () => {
           font-weight: bold;
           text-decoration: none;
           color: #ffffff;
+          display: flex;
+          align-items: center;
+          gap: 8px;
         }
 
         .navbar-links {
@@ -71,66 +86,6 @@ const Dashboard: React.FC = () => {
           margin-right: 5px;
         }
 
-        /* Main Content */
-        .main-content {
-          flex: 1;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding: 40px 20px;
-        }
-
-        .welcome-card {
-          background-color: #ffffff;
-          padding: 30px 40px;
-          border-radius: 10px;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-          text-align: center;
-          max-width: 500px;
-          width: 100%;
-        }
-
-        .welcome-message {
-          font-size: 28px;
-          color: #333333;
-          margin-bottom: 10px;
-        }
-
-        .welcome-submessage {
-          font-size: 18px;
-          color: #555555;
-          margin-bottom: 30px;
-        }
-
-        .action-buttons {
-          display: flex;
-          gap: 20px;
-          justify-content: center;
-          flex-wrap: wrap;
-        }
-
-        .action-button {
-          padding: 12px 25px;
-          background-color: #007bff;
-          color: #ffffff;
-          border: none;
-          border-radius: 6px;
-          font-size: 16px;
-          cursor: pointer;
-          text-decoration: none;
-          display: flex;
-          align-items: center;
-          transition: background-color 0.3s ease;
-        }
-
-        .action-button:hover {
-          background-color: #0056b3;
-        }
-
-        .action-button svg {
-          margin-right: 8px;
-        }
-
         /* Sign Out Button */
         .signout-button {
           padding: 10px 20px;
@@ -153,7 +108,61 @@ const Dashboard: React.FC = () => {
           margin-right: 8px;
         }
 
+        /* Main Content Layout */
+        .main-content {
+          flex: 1;
+          display: grid;
+          grid-template-columns: 3fr 2fr;
+          grid-template-rows: 1fr 1fr;
+          gap: 20px;
+          padding: 20px 20px;
+        }
+
+        /* Individual Chart Containers */
+        .line-chart-container {
+          grid-column: 1 / 2;
+          grid-row: 1 / 3;
+          background-color: #ffffff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .pie-chart-container, .bar-chart-container {
+          background-color: #ffffff;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .pie-chart-container {
+          grid-column: 2 / 3;
+          grid-row: 1 / 2;
+        }
+
+        .bar-chart-container {
+          grid-column: 2 / 3;
+          grid-row: 2 / 3;
+        }
+
         /* Responsive Design */
+        @media (max-width: 900px) {
+          .main-content {
+            grid-template-columns: 1fr;
+            grid-template-rows: 3fr 2fr 2fr;
+          }
+
+          .line-chart-container {
+            grid-column: 1 / 2;
+            grid-row: 1 / 2;
+          }
+
+          .pie-chart-container, .bar-chart-container {
+            grid-column: 1 / 2;
+            grid-row: auto;
+          }
+        }
+
         @media (max-width: 600px) {
           .navbar {
             flex-direction: column;
@@ -166,14 +175,15 @@ const Dashboard: React.FC = () => {
             gap: 10px;
           }
 
-          .action-buttons {
-            flex-direction: column;
-            gap: 15px;
-          }
-
-          .action-button, .signout-button {
+          .signout-button {
             width: 100%;
             justify-content: center;
+          }
+
+          .main-content {
+            grid-template-columns: 1fr;
+            grid-template-rows: repeat(3, auto);
+            padding: 10px 20px;
           }
         }
       `}</style>
@@ -181,16 +191,13 @@ const Dashboard: React.FC = () => {
       {/* Navigation Bar */}
       <nav className="navbar">
         <Link to="/" className="navbar-brand">
-          Beverage Shop
+          <FaChartLine />
+          Shop Statistics
         </Link>
         <div className="navbar-links">
           <Link to="/ordering" className="navbar-link">
             <FaShoppingCart />
             Order
-          </Link>
-          <Link to="/admin" className="navbar-link">
-            <FaUserShield />
-            Admin
           </Link>
           <button className="signout-button" onClick={handleSignOut}>
             <FaSignOutAlt />
@@ -199,21 +206,21 @@ const Dashboard: React.FC = () => {
         </div>
       </nav>
 
-      {/* Main Content */}
+      {/* Main Content Layout */}
       <div className="main-content">
-        <div className="welcome-card">
-          <h1 className="welcome-message">Welcome to Your Dashboard, {user?.email}</h1>
-          <p className="welcome-submessage">Manage your orders and admin settings seamlessly.</p>
-          <div className="action-buttons">
-            <Link to="/ordering" className="action-button">
-              <FaShoppingCart />
-              Place Your Order
-            </Link>
-            <Link to="/admin" className="action-button">
-              <FaUserShield />
-              Admin Panel
-            </Link>
-          </div>
+        {/* Line Chart on the Left */}
+        <div className="line-chart-container">
+          <DynamicLineChart />
+        </div>
+
+        {/* Pie Chart on the Top Right */}
+        <div className="pie-chart-container">
+          <PieChartComponent />
+        </div>
+
+        {/* Bar Chart on the Bottom Right */}
+        <div className="bar-chart-container">
+          <BarChartComponent />
         </div>
       </div>
 

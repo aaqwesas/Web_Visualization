@@ -38,3 +38,25 @@ export type AuthContextType = {
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
 };
+
+export interface SaleDetail {
+  quantity: number;
+  DrinkName: string;
+}
+
+export interface Sale {
+  id: number;
+  Details: SaleDetail[];
+  price: number;
+  sale_date: string; // ISO date string, e.g., '2025-02-08'
+}
+
+export interface AggregatedDataPoint {
+  period: string; // e.g., '2023-09-01' for Daily, '2023-W35' for Weekly, '2023-09' for Monthly
+  totalSales: number;
+}
+
+export interface AggregatedRevenue {
+  name: string;      // DrinkName
+  revenue: number;   // Total revenue in dollars or appropriate currency unit
+}
