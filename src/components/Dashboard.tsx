@@ -194,10 +194,11 @@ const Dashboard: React.FC = () => {
           Shop Statistics
         </Link>
         <div className="navbar-links">
-          <Link to="/admin" className="navbar-link">
+          {user?.user_metadata?.role  == "admin" ? <Link to="/admin" className="navbar-link">
             <MdOutlineAdminPanelSettings />
             Admin
-          </Link>
+          </Link> : ""}
+          
           <Link to="/ordering" className="navbar-link">
             <FaShoppingCart />
             Order
