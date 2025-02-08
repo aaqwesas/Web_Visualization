@@ -3,6 +3,7 @@ import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaSignOutAlt, FaShoppingCart, FaChartLine } from 'react-icons/fa'; // Updated icon (FaChartLine for analytics)
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
 import DynamicLineChart from './Charts/DynamicLineChart'; // Import the DynamicLineChart component
 import PieChartComponent from './Charts/PieChartComponent'; // Import the PieChartComponent
 import BarChartComponent from './Charts/BarChartComponent'; // Import the BarChartComponent
@@ -27,14 +28,12 @@ const Dashboard: React.FC = () => {
     return (
       <div style={{ textAlign: 'center', padding: '50px' }}>
         <p>Loading dashboard...</p>
-        {/* You can replace this with a spinner or loader */}
       </div>
     );
   }
 
   return (
     <div className="dashboard-container">
-      {/* Embedded CSS Styles */}
       <style>{`
         .dashboard-container {
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -195,6 +194,10 @@ const Dashboard: React.FC = () => {
           Shop Statistics
         </Link>
         <div className="navbar-links">
+          <Link to="/admin" className="navbar-link">
+            <MdOutlineAdminPanelSettings />
+            Admin
+          </Link>
           <Link to="/ordering" className="navbar-link">
             <FaShoppingCart />
             Order

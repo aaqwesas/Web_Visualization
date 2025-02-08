@@ -52,7 +52,7 @@ const DynamicLineChart: React.FC = () => {
   };
 
   if (loading) {
-    return <div>Loading chart data...</div>; // You can replace this with a spinner
+    return <div>Loading chart data...</div>;
   }
 
   return (

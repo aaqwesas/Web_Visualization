@@ -168,7 +168,7 @@ const Ordering: React.FC = () => {
   );
 };
 
-// Inline Styles for Simplicity
+
 const styles: { [key: string]: React.CSSProperties } = {
   container: {
     padding: '20px',
