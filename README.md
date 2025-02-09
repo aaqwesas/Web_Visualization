@@ -31,8 +31,9 @@ A web application built with **React (TypeScript)** and **Supabase** to visualiz
 
 - **Frontend**: React (TypeScript)
 - **Backend/Database**: Supabase (PostgreSQL, Auth)
-- **Data Visualization**: Recharts or another library (e.g., Chart.js, D3.js)
+- **Data Visualization**: Recharts
 - **Styling**: CSS
+- **Build Tool**: Vite
 
 ---
 
@@ -103,25 +104,6 @@ yarn start
 
 ---
 
-## Project Structure
-
-```
-.
-├── public/                # Static assets
-├── src/
-│   ├── components/        # Reusable UI components
-│   ├── pages/             # Application pages
-│   ├── services/          # Supabase client and API calls
-│   ├── styles/            # Global styles or Tailwind CSS configuration
-│   ├── types/             # TypeScript type definitions
-│   └── App.tsx            # Main app component
-├── .env                   # Environment variables
-├── package.json           # Project metadata and dependencies
-└── README.md              # Project documentation
-```
-
----
-
 ## Environment Variables
 
 The project uses a `.env` file to store environment variables. Create a `.env` file in the root directory and add the following keys:
@@ -143,30 +125,12 @@ Replace `your-supabase-url` and `your-supabase-anon-key` with the values from yo
 4. Configure your database schema in the Supabase dashboard or using SQL scripts.
 
 ---
-
-## Contributing
-
-Contributions are welcome! To contribute:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix:
-   ```bash
-   git checkout -b feature-name
-   ```
-3. Commit your changes and push the branch:
-   ```bash
-   git commit -m "Add feature-name"
-   git push origin feature-name
-   ```
-4. Open a pull request on GitHub.
-
----
-
 ### Acknowledgements
 
 - [React](https://reactjs.org/)
 - [Supabase](https://supabase.com/)
 - [Typescript](https://www.typescriptlang.org/)
 - [Recharts](https://recharts.org/)
+- [Vite](https://vite.dev/)
 
 ---
