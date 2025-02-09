@@ -1,6 +1,6 @@
 # Data Visualization Project
 
-A web application built with **React (TypeScript)** and **Supabase** to visualize and explore data interactively. This project showcases modern web development practices while providing a user-friendly interface for data representation.
+A web application built with **React (TypeScript)** and **Supabase** to visualize and explore data interactively
 
 ## Table of Contents
 
