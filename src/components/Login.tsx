@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast'; // Import react-hot-toast
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>('');
@@ -24,20 +23,6 @@ const Login: React.FC = () => {
       navigate('/dashboard');
     } catch (error: any) { // Type as any to handle different error types
       console.error('Error signing in:', error);
-      // Show an error toast with a user-friendly message
-      const errorMessage =
-        error?.message || 'An unexpected error occurred. Please try again.';
-      toast.error(`Failed to log in: ${errorMessage}`, {
-        icon: '❌',
-        duration: 4000, // Display for 4 seconds
-        position: 'top-center', // Position the toast at the top center
-        style: {
-          backgroundColor: '#ff4d4f', // Red background for error
-          color: '#fff', // White text
-          padding: '16px',
-          borderRadius: '8px',
-        },
-      });
     }
   };
 
@@ -83,9 +68,6 @@ const Login: React.FC = () => {
 
   return (
     <div style={styles.container}>
-      {/* Add the Toaster component to render the toasts */}
-      <Toaster />
-
       <form onSubmit={handleSubmit} style={styles.form}>
         <h2>Log In</h2>
         <input

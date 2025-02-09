@@ -51,17 +51,14 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 };
 
 const AdminRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user, loading } = useAuth();
+  const { user, loading, role } = useAuth();
 
   if (loading) {
     return <div>Loading...</div>; // Or a spinner component
   }
 
-  // Safely access the role from user_metadata
-  const userRole = user?.user_metadata?.role;
 
-  if (!user || userRole !== 'admin') {
-    console.log('User:', user);
+  if (!user || role !== 'admin') {
     return <Navigate to="/dashboard" replace />;
   }
 

@@ -6,6 +6,7 @@ export type MenuItem = {
   DrinkName: string;
   description: string;
   price: number;
+  created_at? : Date;
 };
 
 export type InsertMenuItem = Omit<MenuItem, 'id'>;
@@ -34,7 +35,7 @@ export type AuthContextType = {
   user: User | null;
   role: string | null; // Added role state
   loading: boolean; // Added loading state
-  signUp: (email: string, password: string) => Promise<void>; // Removed role parameter
+  signUp: (email: string, password: string, role: string) => Promise<void>; // Removed role parameter
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => Promise<void>;
 };

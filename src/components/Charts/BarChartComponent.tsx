@@ -12,8 +12,7 @@ import {
   Cell,
 } from 'recharts';
 import { supabase } from '../../lib/supabase'; // Ensure this path is correct based on your project structure
-import { AggregatedRevenue } from '../types';
-import toast, { Toaster } from 'react-hot-toast';
+import { AggregatedRevenue, MenuItem, OrderDetail } from '../types';
 
 const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff8042', '#A28EFF', '#FF6699'];
 
@@ -26,9 +25,9 @@ const BarChartComponent: React.FC = () => {
       setLoading(true);
 
       try {
-        // Fetch Sales data with Details
+        // Fetch Sales data with details column
         const { data: salesData, error: salesError } = await supabase
-          .from('Sales')
+          .from<OrderDetail>('Sales')
           .select('Details');
 
         if (salesError) {
@@ -37,7 +36,7 @@ const BarChartComponent: React.FC = () => {
 
         // Fetch Menu data
         const { data: menuData, error: menuError } = await supabase
-          .from('Menu')
+          .from<MenuItem>('Menu')
           .select('*');
 
         if (menuError) {
@@ -51,7 +50,6 @@ const BarChartComponent: React.FC = () => {
         }
 
         if (!menuData || menuData.length === 0) {
-          toast.error('Menu data is unavailable.');
           setAggregatedData([]);
           setLoading(false);
           return;
@@ -65,8 +63,8 @@ const BarChartComponent: React.FC = () => {
 
         // Aggregate quantities per DrinkName
         const quantityMap: { [key: string]: number } = {};
-        salesData.forEach((sale) => {
-          sale.Details.forEach((detail) => {
+        salesData.forEach((sale : Object[]) => {
+          sale.Details.forEach((detail : Object) => {
             const drinkNameKey = detail.DrinkName.trim().toLowerCase();
             if (menuMap[drinkNameKey] !== undefined) { // Ensure the drink exists in the menu
               if (quantityMap[drinkNameKey]) {
@@ -91,13 +89,11 @@ const BarChartComponent: React.FC = () => {
           };
         });
 
-        // Sort data by revenue descending
         revenueData.sort((a, b) => b.revenue - a.revenue);
 
         setAggregatedData(revenueData);
       } catch (error: any) {
         console.error('Error fetching or processing data:', error.message);
-        toast.error(`Error: ${error.message}`);
         setAggregatedData([]);
       } finally {
         setLoading(false);
@@ -111,7 +107,6 @@ const BarChartComponent: React.FC = () => {
     return (
       <div style={{ textAlign: 'center', padding: '50px' }}>
         <p>Loading Bar Chart...</p>
-        {/* Replace with a spinner or loader component if desired */}
       </div>
     );
   }
@@ -140,8 +135,6 @@ const BarChartComponent: React.FC = () => {
           </BarChart>
         </ResponsiveContainer>
       </div>
-      {/* Toast Notifications */}
-      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 };

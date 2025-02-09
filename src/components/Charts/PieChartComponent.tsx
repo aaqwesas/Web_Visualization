@@ -10,7 +10,6 @@ import {
 } from 'recharts';
 import { supabase } from '../../lib/supabase'; // Adjust the import path as necessary
 import { SaleDetail, Sale } from '../types'; // Ensure correct path
-import toast, { Toaster } from 'react-hot-toast';
 
 interface PieData {
   name: string;
@@ -63,7 +62,6 @@ const PieChartComponent: React.FC = () => {
         setData(pieData);
       } catch (error: any) {
         console.error('Error fetching sales data for Pie Chart:', error.message);
-        toast.error('Failed to fetch sales data for Pie Chart.');
         setData([]);
       } finally {
         setLoading(false);
@@ -116,7 +114,6 @@ const PieChartComponent: React.FC = () => {
           </PieChart>
         </ResponsiveContainer>
       </div>
-      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 };

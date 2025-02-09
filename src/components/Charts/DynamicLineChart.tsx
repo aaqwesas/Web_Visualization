@@ -14,7 +14,6 @@ import { supabase } from '../../lib/supabase';
 import { Sale, AggregatedDataPoint } from '../types';
 import { aggregateSalesData } from './utils';
 import { FaCalendarDay, FaCalendarWeek, FaCalendarAlt } from 'react-icons/fa'; // Icons for buttons
-import toast, { Toaster } from 'react-hot-toast';
 
 const DynamicLineChart: React.FC = () => {
   const [sales, setSales] = useState<Sale[]>([]);
@@ -30,7 +29,6 @@ const DynamicLineChart: React.FC = () => {
 
       if (error) {
         console.error('Error fetching sales data:', error.message);
-        toast.error('Failed to fetch sales data.');
       } else {
         setSales(data as Sale[]);
       }
@@ -139,9 +137,6 @@ const DynamicLineChart: React.FC = () => {
           />
         </LineChart>
       </ResponsiveContainer>
-
-      {/* Toast Notifications */}
-      <Toaster position="top-right" />
     </div>
   );
 };

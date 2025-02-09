@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { InsertMenuItem } from './types';
-import toast, { Toaster } from 'react-hot-toast'; // Import react-hot-toast
+import toast from 'react-hot-toast'; // Import react-hot-toast
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 const AddDrink: React.FC = () => {
@@ -102,7 +102,6 @@ const AddDrink: React.FC = () => {
           {loading ? 'Adding...' : 'Add Drink'}
         </button>
       </form>
-      <Toaster />
     </div>
   );
 };
