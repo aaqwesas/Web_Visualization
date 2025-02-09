@@ -1,4 +1,3 @@
-// src/components/DynamicLineChart.tsx
 import React, { useEffect, useState } from 'react';
 import {
   LineChart,
@@ -21,7 +20,6 @@ const DynamicLineChart: React.FC = () => {
   const [timeframe, setTimeframe] = useState<'daily' | 'weekly' | 'monthly'>('daily');
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Fetch sales data from Supabase
   useEffect(() => {
     const fetchSales = async () => {
       setLoading(true);
@@ -56,8 +54,6 @@ const DynamicLineChart: React.FC = () => {
   return (
     <div style={{ width: '100%', height: 500, padding: '20px' }}>
       <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Sales Over Time</h2>
-
-      {/* Timeframe Selection Buttons */}
       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px', gap: '10px' }}>
         <button
           onClick={() => handleTimeframeChange('daily')}
@@ -112,7 +108,6 @@ const DynamicLineChart: React.FC = () => {
         </button>
       </div>
 
-      {/* Line Chart */}
       <ResponsiveContainer>
         <LineChart
           data={aggregatedData}

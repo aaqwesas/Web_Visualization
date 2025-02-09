@@ -1,4 +1,3 @@
-// Ordering.tsx
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { MenuItem, CartItem } from './types';
@@ -10,7 +9,6 @@ const Ordering: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [orderSuccess, setOrderSuccess] = useState<boolean>(false);
 
-  // Fetch Menu Items from Supabase
   const fetchMenuItems = async () => {
     setLoading(true);
     const { data, error } = await supabase.from('Menu').select('id, DrinkName, description, price');
@@ -27,12 +25,10 @@ const Ordering: React.FC = () => {
     fetchMenuItems();
   }, []);
 
-  // Add Item to Cart
   const addToCart = (item: MenuItem) => {
     setOrderSuccess(false);
     const existingItem = cart.find((cartItem) => cartItem.DrinkName === item.DrinkName);
     if (existingItem) {
-      // Update quantity if item already in cart
       setCart(
         cart.map((cartItem) =>
           cartItem.DrinkName === item.DrinkName
@@ -41,18 +37,15 @@ const Ordering: React.FC = () => {
         )
       );
     } else {
-      // Add new item to cart
       setCart([...cart, { DrinkName: item.DrinkName, quantity: 1, price: item.price }]);
     }
   };
 
-  // Remove Item from Cart
   const removeFromCart = (DrinkName: string) => {
     setOrderSuccess(false);
     const existingItem = cart.find((cartItem) => cartItem.DrinkName === DrinkName);
     if (existingItem) {
       if (existingItem.quantity > 1) {
-        // Decrease quantity
         setCart(
           cart.map((cartItem) =>
             cartItem.DrinkName === DrinkName
@@ -61,35 +54,30 @@ const Ordering: React.FC = () => {
           )
         );
       } else {
-        // Remove item from cart
         setCart(cart.filter((cartItem) => cartItem.DrinkName !== DrinkName));
       }
     }
   };
 
-  // Calculate Total Price
   const calculateTotal = (): number => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
-  // Place Order
   const placeOrder = async () => {
     if (cart.length === 0) {
       alert('Your cart is empty!');
       return;
     }
 
-    // Prepare Details as array of JSON objects
     const details = cart.map((item) => ({
       quantity: item.quantity,
       DrinkName: item.DrinkName,
     }));
 
     const totalPrice = calculateTotal();
-    const saleDate = new Date().toISOString(); // ISO format for timestamp
+    const saleDate = new Date().toISOString();
 
-    // Insert into Sales table
-    const { data, error } = await supabase.from('Sales').insert([
+    const { error } = await supabase.from('Sales').insert([
       {
         Details: details,
         price: totalPrice,
@@ -101,7 +89,7 @@ const Ordering: React.FC = () => {
       setError(error.message);
       alert(`Error placing order: ${error.message}`);
     } else {
-      setCart([]); // Clear cart after successful order
+      setCart([]);
       setOrderSuccess(true);
     }
   };
@@ -167,7 +155,6 @@ const Ordering: React.FC = () => {
     </div>
   );
 };
-
 
 const styles: { [key: string]: React.CSSProperties } = {
   container: {

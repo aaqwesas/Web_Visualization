@@ -1,9 +1,8 @@
-// AddDrink.tsx
 import React, { useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { InsertMenuItem } from './types';
-import toast from 'react-hot-toast'; // Import react-hot-toast
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 const AddDrink: React.FC = () => {
   const [drinkName, setDrinkName] = useState<string>('');
@@ -15,7 +14,6 @@ const AddDrink: React.FC = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Basic validation
     if (!drinkName.trim() || !description.trim() || price <= 0) {
       toast.error('Please fill in all fields with valid data.');
       setLoading(false);
@@ -28,13 +26,12 @@ const AddDrink: React.FC = () => {
       price: parseFloat(price.toFixed(2)),
     };
 
-    const { data, error } = await supabase.from('Menu').insert([newDrink]);
+    const { error } = await supabase.from('Menu').insert([newDrink]);
 
     if (error) {
       toast.error(`Error adding drink: ${error.message}`);
     } else {
       toast.success(`Drink "${drinkName}" added successfully!`);
-      // Reset form fields
       setDrinkName('');
       setDescription('');
       setPrice(0);
@@ -66,7 +63,6 @@ const AddDrink: React.FC = () => {
             placeholder="e.g., Classic Milk Tea"
           />
         </div>
-
         <div style={styles.formGroup}>
           <label htmlFor="description" style={styles.label}>
             Description:
@@ -80,7 +76,6 @@ const AddDrink: React.FC = () => {
             placeholder="Describe the drink..."
           />
         </div>
-
         <div style={styles.formGroup}>
           <label htmlFor="price" style={styles.label}>
             Price ($):
@@ -97,7 +92,6 @@ const AddDrink: React.FC = () => {
             placeholder="e.g., 4.99"
           />
         </div>
-
         <button type="submit" style={styles.submitButton} disabled={loading}>
           {loading ? 'Adding...' : 'Add Drink'}
         </button>
@@ -106,7 +100,6 @@ const AddDrink: React.FC = () => {
   );
 };
 
-// Enhanced Inline CSS Styles
 const styles: { [key: string]: React.CSSProperties } = {
   container: {
     maxWidth: '500px',
@@ -117,11 +110,11 @@ const styles: { [key: string]: React.CSSProperties } = {
     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.05)',
     backgroundColor: '#ffffff',
     fontFamily: 'Arial, sans-serif',
-    boxSizing: 'border-box', // Include padding and border in the element's total width and height
+    boxSizing: 'border-box',
   },
   navContainer: {
     marginBottom: '20px',
-    textAlign: 'right', // Align the back button to the right
+    textAlign: 'right',
   },
   backButton: {
     textDecoration: 'none',
@@ -158,16 +151,16 @@ const styles: { [key: string]: React.CSSProperties } = {
     fontSize: '16px',
   },
   input: {
-    width: '100%', // Ensure the inputs take full width
+    width: '100%',
     padding: '10px 14px',
     border: '1px solid #cccccc',
     borderRadius: '5px',
     fontSize: '16px',
     transition: 'border-color 0.3s',
-    boxSizing: 'border-box', // Include padding and border in the element's total width and height
+    boxSizing: 'border-box',
   },
   textarea: {
-    width: '100%', // Ensure the textarea takes full width
+    width: '100%',
     padding: '10px 14px',
     border: '1px solid #cccccc',
     borderRadius: '5px',
@@ -175,10 +168,10 @@ const styles: { [key: string]: React.CSSProperties } = {
     resize: 'vertical',
     minHeight: '80px',
     transition: 'border-color 0.3s',
-    boxSizing: 'border-box', // Include padding and border in the element's total width and height
+    boxSizing: 'border-box',
   },
   submitButton: {
-    width: '100%', // Make the button full width
+    width: '100%',
     padding: '12px 20px',
     backgroundColor: '#28a745',
     color: '#ffffff',

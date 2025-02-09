@@ -1,4 +1,3 @@
-// src/components/PieChartComponent.tsx
 import React, { useEffect, useState } from 'react';
 import {
   PieChart,
@@ -8,13 +7,10 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
-import { supabase } from '../../lib/supabase'; // Adjust the import path as necessary
-import { SaleDetail, Sale } from '../types'; // Ensure correct path
-
-interface PieData {
-  name: string;
-  value: number;
-}
+import { supabase } from '../../lib/supabase'; 
+import { Sale, SaleDetail, PieData } from '../types'; 
+import { PostgrestError } from '@supabase/supabase-js'; 
+import toast from 'react-hot-toast'; 
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28EFF', '#FF6699'];
 
@@ -26,12 +22,16 @@ const PieChartComponent: React.FC = () => {
     const fetchPieData = async () => {
       setLoading(true);
       try {
-        const { data: salesData, error } = await supabase
-          .from('Sales')
-          .select('Details');
+        // Fetch sales data with 'Details'
+        const { data: salesData, error }: { data: Sale[] | null; error: PostgrestError | null } =
+          await supabase.from('Sales').select('Details');
 
         if (error) {
           throw error;
+        }
+
+        if (!salesData) {
+          throw new Error('No sales data found.');
         }
 
         console.log('Fetched Sales Data:', salesData);
@@ -39,7 +39,7 @@ const PieChartComponent: React.FC = () => {
         // Aggregate drink names and quantities
         const drinkMap: { [key: string]: number } = {};
 
-        salesData?.forEach((sale: Sale) => {
+        salesData.forEach((sale: Sale) => {
           sale.Details.forEach((detail: SaleDetail) => {
             const drinkName = detail.DrinkName.trim();
             if (drinkMap[drinkName]) {
@@ -52,16 +52,27 @@ const PieChartComponent: React.FC = () => {
 
         console.log('Aggregated Drink Map:', drinkMap);
 
-        const pieData: PieData[] = Object.keys(drinkMap).map((drink) => ({
-          name: drink,
-          value: drinkMap[drink],
+        // Convert to PieData type
+        const pieData: PieData[] = Object.entries(drinkMap).map(([name, value]) => ({
+          name,
+          value,
         }));
 
         console.log('Pie Chart Data:', pieData);
 
         setData(pieData);
-      } catch (error: any) {
-        console.error('Error fetching sales data for Pie Chart:', error.message);
+      } catch (error: unknown) {
+        // Enhanced error handling
+        if (error instanceof PostgrestError) {
+          console.error('Postgrest Error:', error.message);
+          toast.error(`Failed to load Pie Chart data: ${error.message}`);
+        } else if (error instanceof Error) {
+          console.error('General Error:', error.message);
+          toast.error(`Failed to load Pie Chart data: ${error.message}`);
+        } else {
+          console.error('Unknown Error:', error);
+          toast.error('An unexpected error occurred while loading Pie Chart data.');
+        }
         setData([]);
       } finally {
         setLoading(false);
@@ -75,7 +86,6 @@ const PieChartComponent: React.FC = () => {
     return (
       <div style={{ textAlign: 'center', padding: '50px' }}>
         <p>Loading Pie Chart...</p>
-        {/* You can replace this with a spinner or loader component if desired */}
       </div>
     );
   }
