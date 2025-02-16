@@ -125,6 +125,13 @@ Replace `your-supabase-url` and `your-supabase-anon-key` with the values from yo
 4. Configure your database schema in the Supabase dashboard or using SQL scripts.
 
 ---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE). You are free to use, modify, and distribute this software as per the terms of the license.
+
+---
+
 ### Acknowledgements
 
 - [React](https://reactjs.org/)
